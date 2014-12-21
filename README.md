@@ -1,20 +1,20 @@
-git-prompt.sh
-=============
+git-prompt
+==========
 
 Highly configurable shell prompt helper for Git
 
-[![Build Status](http://img.shields.io/travis/amercier/git-prompt.sh.svg?style=flat-square)](https://travis-ci.org/amercier/git-prompt.sh)
+[![Build Status](http://img.shields.io/travis/amercier/git-prompt.svg?style=flat-square)](https://travis-ci.org/amercier/git-prompt)
 
 Installation
 ------------
 
 TODO
 
-Without git-prompt.sh:
+Without git-prompt:
 
     export $PS1='[\u@\h \[\033[1;36m\]\w\[\033[0m\]]\$ '
 
-With git-prompt.sh:
+With git-prompt:
 
     export $PS1='[\u@\h \[\033[1;36m\]\w\[\033[0m\]$(path/to/git/prompt.sh)]\$ '
 
@@ -22,7 +22,7 @@ With git-prompt.sh:
 Usage
 -----
 
-    git-prompt.sh [options]
+    git-prompt [options]
 
 ### Options
 
@@ -34,15 +34,14 @@ Usage
 
 
 
-    #
 # NAME
-#        bash
+#        git-prompt
 #
 # SYNOPSIS
 #        
 #
 # DESCRIPTION
-#        git-prompt.sh is a script to display the Git status on a shell prompt.
+#        git-prompt is a script to display the Git status on a shell prompt.
 #        Typical usage is to add the following in ~/.bashrc:
 #
 

@@ -3,7 +3,7 @@ require 'open3'
 
 SCRIPT = "\"#{Dir.pwd}/src/git-prompt.sh\""
 
-describe 'git-prompt.sh' do
+describe 'git-prompt' do
 
   context 'in an empty directory' do
     dir = Dir.mktmpdir

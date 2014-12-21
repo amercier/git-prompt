@@ -1,5 +1,5 @@
-# git-prompt.sh's Makefile
-# ========================
+# git-prompt's Makefile
+# =====================
 
 .PHONY: test clean
 
