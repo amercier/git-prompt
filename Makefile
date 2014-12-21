@@ -3,9 +3,6 @@
 
 .PHONY: test clean
 
-clean:
-	rm -rf "$(BUILD_DIR)"
-
 vendor/roundup/Makefile:
 	git clone git://github.com/bmizerany/roundup.git vendor/roundup
 
