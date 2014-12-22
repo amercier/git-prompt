@@ -3,13 +3,18 @@
 
 .PHONY: test clean
 
-BUILD_DIR=dist
-
-$(BUILD_DIR):
-	mkdir "$(BUILD_DIR)"
-
 clean:
-	rm -rf "$(BUILD_DIR)"
+	rm -rf vendor
 
-test:
-	./run-tests.sh
+vendor/roundup/Makefile:
+	git clone git://github.com/bmizerany/roundup.git vendor/roundup
+	cd vendor/roundup && git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
+	cd vendor/roundup && git fetch origin
+	cd vendor/roundup && git checkout pr/30
+
+vendor/roundup/roundup: vendor/roundup/Makefile
+	cd vendor/roundup && ./configure
+	cd vendor/roundup && make
+
+test: vendor/roundup/roundup
+	cd tests && ../vendor/roundup/roundup
