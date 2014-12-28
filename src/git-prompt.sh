@@ -39,22 +39,22 @@ function git-branch {
 	local branch=""
 
 	if [ -d "$(git-dir)/rebase-merge" ]; then
-		# TODO: implement
+		echo TODO: implement >&2
 	else
 		if [ -d "$(git-dir)/rebase-apply" ]; then
-			# TODO: implement
+			echo TODO: implement >&2
 		elif [ -f "$(git-dir)/MERGE_HEAD" ]; then
-			# TODO: implement
+			echo TODO: implement >&2
 		elif [ -f "$(git-dir)/CHERRY_PICK_HEAD" ]; then
-			# TODO: implement
+			echo TODO: implement >&2
 		elif [ -f "$(git-dir)/REVERT_HEAD" ]; then
-			# TODO: implement
+			echo TODO: implement >&2
 		elif [ -f "$(git-dir)/BISECT_LOG" ]; then
-			# TODO: implement
+			echo TODO: implement >&2
 		fi
 
 		if [ -n "$b" ]; then
-			:
+			: # ???
 		elif [ -h "$(git-dir)/HEAD" ]; then
 			# symlink symbolic ref
 			b="$(git symbolic-ref HEAD 2>/dev/null)"
@@ -66,12 +66,20 @@ function git-branch {
 	fi
 
 	if [ -n "$step" ] && [ -n "$total" ]; then
-		# TODO: implement
+		echo TODO: implement >&2
 	fi
+
+	branch="${branch##refs/heads/}"
+	echo "$branch"
 }
 
-echo -n "is-inside-git-dir ? "; is-inside-git-dir && echo yes || echo no;
-echo -n "is-bare-repository ? "; is-bare-repository && echo yes || echo no;
-echo -n "is-inside-work-tree ? "; is-inside-work-tree && echo yes || echo no;
-echo "git-dir: $(git-dir)"
-echo "git-sha: $(git-sha)"
+# echo -n "is-inside-git-dir ? "; is-inside-git-dir && echo yes || echo no;
+# echo -n "is-bare-repository ? "; is-bare-repository && echo yes || echo no;
+# echo -n "is-inside-work-tree ? "; is-inside-work-tree && echo yes || echo no;
+# echo "git-dir: $(git-dir)"
+# echo "git-sha: $(git-sha)"
+# echo "git-branch: $(git-branch)"
+
+is-inside-work-tree || exit 0
+
+echo "$(git-branch)"
