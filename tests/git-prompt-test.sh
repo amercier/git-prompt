@@ -16,7 +16,6 @@ init_git_repo() {
 	git init --bare repo.git
 	git clone ./repo.git
 	cd repo
-	PATH="$PATH:$(pwd)/../../src"
 }
 
 it_displays_nothing_in_empty_dir() {
