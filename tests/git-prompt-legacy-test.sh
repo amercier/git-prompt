@@ -57,3 +57,48 @@ it_displays_merging_status() {
 	output="$(git-prompt-legacy.sh 2>&1)"
 	test "$output" "=" "master|MERGING"
 }
+
+it_displays_rebasing_status() {
+	init_git_repo
+
+	git checkout -b branch-a
+  echo a > file1
+	git add file1
+	git commit -m "a"
+  echo b > file2
+	git add file2
+	git commit -m "b"
+  echo c > file3
+	git add file3
+	git commit -m "c"
+
+	git checkout master
+	echo d > file1
+	echo d > file2
+	echo d > file3
+	git add file1 file2 file3
+	git commit -m "d"
+
+	git checkout branch-a
+	(git rebase master || exit 0)
+	output="$(git-prompt-legacy.sh 2>&1)"
+	test "$output" "=" "branch-a|REBASE 1/3"
+
+	echo e > file1
+	git add file1
+	(git rebase --continue || exit 0)
+	output="$(git-prompt-legacy.sh 2>&1)"
+	test "$output" "=" "branch-a|REBASE 2/3"
+
+	echo e > file2
+	git add file2
+	(git rebase --continue || exit 0)
+	output="$(git-prompt-legacy.sh 2>&1)"
+	test "$output" "=" "branch-a|REBASE 3/3"
+
+	echo e > file3
+	git add file3
+	(git rebase --continue || exit 0)
+	output="$(git-prompt-legacy.sh 2>&1)"
+	test "$output" "=" "branch-a"
+}
