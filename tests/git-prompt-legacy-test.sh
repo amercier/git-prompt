@@ -103,3 +103,16 @@ it_displays_rebasing_status() {
 	output="$(git-prompt-legacy.sh 2>&1)"
 	test "$output" "=" "branch-a"
 }
+
+it_displays_detached_head_status () {
+	init_git_repo
+	git checkout --detach master
+	output="$(git-prompt-legacy.sh 2>&1)"
+	echo "$output" | egrep '^\([0-9a-f]{7}\.\.\.\)$'
+
+	git checkout master
+	git tag v1.0.0
+	git checkout v1.0.0
+	output="$(git-prompt-legacy.sh 2>&1)"
+	test "$output" "==" "(v1.0.0)"
+}
