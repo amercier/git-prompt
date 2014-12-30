@@ -15,8 +15,9 @@ after() {
 init_git_repo() {
 	git init --bare repo.git
 	git clone ./repo.git
-	git clone ./repo.git repo2
 	cd repo
+	git config user.email "roundup@xample.com"
+	git config user.name "Roundup"
 	echo ok > README
 	git add README
 	git commit -m "Added README"
