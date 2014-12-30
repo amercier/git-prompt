@@ -104,15 +104,44 @@ it_displays_rebasing_status() {
 	test "$output" "=" "branch-a"
 }
 
-it_displays_detached_head_status () {
+it_displays_detached_head_tag_status () {
 	init_git_repo
-	git checkout --detach master
-	output="$(git-prompt-legacy.sh 2>&1)"
-	echo "$output" | egrep '^\([0-9a-f]{7}\.\.\.\)$'
-
-	git checkout master
 	git tag v1.0.0
 	git checkout v1.0.0
 	output="$(git-prompt-legacy.sh 2>&1)"
-	test "$output" "==" "(v1.0.0)"
+	test "$output" '==' '(v1.0.0)'
+	echo a > file1
+	git add file1
+	git commit -m "a"
+	git tag v1.0.1
+	echo b > file1
+	git add file1
+	git commit -m "b"
+	echo c > file1
+	git add file1
+	git commit -m "c"
+	git tag v1.1.0
+
+	git checkout HEAD^
+	output="$(git-prompt-legacy.sh 2>&1)"
+	echo "$output" | egrep '^\([0-9a-f]{7}\.\.\.\)$'
+	output="$(GIT_PS1_DESCRIBE_STYLE=contains git-prompt-legacy.sh 2>&1)"
+	test "$output" '==' '(v1.1.0~1)'
+	output="$(GIT_PS1_DESCRIBE_STYLE=branch git-prompt-legacy.sh 2>&1)"
+	test "$output" '==' '(tags/v1.1.0~1)'
+}
+
+it_displays_detached_head_branch_status () {
+	init_git_repo
+	echo a > file1
+	git add file1
+	git commit -m "a"
+	echo b > file1
+	git add file1
+	git commit -m "b"
+	git checkout --detach HEAD^
+	output="$(git-prompt-legacy.sh 2>&1)"
+	echo "$output" | egrep '^\([0-9a-f]{7}\.\.\.\)$'
+	output="$(GIT_PS1_DESCRIBE_STYLE=branch git-prompt-legacy.sh 2>&1)"
+	test "$output" '==' '(master~1)'
 }
