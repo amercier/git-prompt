@@ -6,6 +6,13 @@ before() {
 	PATH="$PATH:$(pwd)/../src"
 	tmp_dir="$(mktemp -d 2>/dev/null || mktemp -d -t 'git-prompt')"
 	cd "$tmp_dir"
+	unset GIT_PS1_DESCRIBE_STYLE
+	unset GIT_PS1_SHOWCOLORHINTS
+	unset GIT_PS1_SHOWDIRTYSTATE
+	unset GIT_PS1_SHOWSTASHSTATE
+	unset GIT_PS1_SHOWUNTRACKEDFILES
+	unset GIT_PS1_SHOWUPSTREAM
+	unset GIT_PS1_STATESEPARATOR
 }
 
 after() {
@@ -158,4 +165,33 @@ it_displays_git_dir () {
 	cd .git
 	output="$(git-prompt-legacy.sh 2>&1)"
 	test "$output" '==' 'GIT_DIR!'
+}
+
+it_displays_dirty_state () {
+	init_git_repo
+	echo a > file1
+	echo a > file2
+	git add file1 file2
+	git commit -m "a"
+
+	echo b > file1
+	echo b > file2
+	output="$(GIT_PS1_SHOWDIRTYSTATE=1 git-prompt-legacy.sh 2>&1)"
+	test "$output" '==' 'master *'
+	git add file1
+	output="$(GIT_PS1_SHOWDIRTYSTATE=1 git-prompt-legacy.sh 2>&1)"
+	test "$output" '==' 'master *+'
+	git add file2
+	output="$(GIT_PS1_SHOWDIRTYSTATE=1 git-prompt-legacy.sh 2>&1)"
+	test "$output" '==' 'master +'
+	git commit -m "b"
+}
+
+it_displays_dirty_state_on_new_repo () {
+	cd ..
+	mkdir repo
+	cd repo
+	git init
+	output="$(GIT_PS1_SHOWDIRTYSTATE=1 git-prompt-legacy.sh 2>&1)"
+	test "$output" '==' 'master #'
 }
