@@ -145,3 +145,17 @@ it_displays_detached_head_branch_status () {
 	output="$(GIT_PS1_DESCRIBE_STYLE=branch git-prompt-legacy.sh 2>&1)"
 	test "$output" '==' '(master~1)'
 }
+
+it_displays_bare_repo () {
+	init_git_repo
+	cd ../repo.git
+	output="$(git-prompt-legacy.sh 2>&1)"
+	test "$output" '==' 'BARE:master'
+}
+
+it_displays_git_dir () {
+	init_git_repo
+	cd .git
+	output="$(git-prompt-legacy.sh 2>&1)"
+	test "$output" '==' 'GIT_DIR!'
+}
