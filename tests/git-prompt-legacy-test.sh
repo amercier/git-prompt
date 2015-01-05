@@ -194,3 +194,11 @@ it_displays_dirty_state_on_new_repo () {
 	output="$(GIT_PS1_SHOWDIRTYSTATE=1 git-prompt-legacy.sh 2>&1)"
 	test "$output" '==' 'master #'
 }
+
+it_displays_stash () {
+	init_git_repo
+	echo a > README
+	git stash
+	output="$(GIT_PS1_SHOWSTASHSTATE=1 git-prompt-legacy.sh 2>&1)"
+	test "$output" '==' 'master $'
+}
