@@ -31,18 +31,18 @@ init_git_repo() {
 	git push -u origin master
 }
 
-it_displays_nothing_in_empty_dir() {
+it_shows_nothing_in_empty_dir() {
 	output="$(git-prompt-legacy.sh 2>&1)"
 	test "$output" "=" ""
 }
 
-it_displays_nothing_in_empty_dir_containing_git_dir() {
+it_shows_nothing_in_empty_dir_containing_git_dir() {
 	mkdir .git
 	output="$(git-prompt-legacy.sh 2>&1)"
 	test "$output" "=" ""
 }
 
-it_displays_branch_name() {
+it_shows_branch_name() {
 	init_git_repo
 	output="$(git-prompt-legacy.sh 2>&1)"
 	test "$output" "=" "master"
@@ -51,7 +51,7 @@ it_displays_branch_name() {
 	test "$output" "=" "mybranch"
 }
 
-it_displays_merging_status() {
+it_shows_merging_status() {
 	init_git_repo
 	git checkout -b branch-a
 	echo a > file
@@ -66,7 +66,7 @@ it_displays_merging_status() {
 	test "$output" "=" "master|MERGING"
 }
 
-it_displays_rebasing_status() {
+it_shows_rebasing_status() {
 	init_git_repo
 
 	git checkout -b branch-a
@@ -111,7 +111,7 @@ it_displays_rebasing_status() {
 	test "$output" "=" "branch-a"
 }
 
-it_displays_detached_head_tag_status () {
+it_shows_detached_head_tag_status () {
 	init_git_repo
 	git tag v1.0.0
 	git checkout v1.0.0
@@ -138,7 +138,7 @@ it_displays_detached_head_tag_status () {
 	test "$output" '==' '(tags/v1.1.0~1)'
 }
 
-it_displays_detached_head_branch_status () {
+it_shows_detached_head_branch_status () {
 	init_git_repo
 	echo a > file1
 	git add file1
@@ -153,21 +153,21 @@ it_displays_detached_head_branch_status () {
 	test "$output" '==' '(master~1)'
 }
 
-it_displays_bare_repo () {
+it_shows_bare_repo () {
 	init_git_repo
 	cd ../repo.git
 	output="$(git-prompt-legacy.sh 2>&1)"
 	test "$output" '==' 'BARE:master'
 }
 
-it_displays_git_dir () {
+it_shows_git_dir () {
 	init_git_repo
 	cd .git
 	output="$(git-prompt-legacy.sh 2>&1)"
 	test "$output" '==' 'GIT_DIR!'
 }
 
-it_displays_dirty_state () {
+it_shows_dirty_state () {
 	init_git_repo
 	echo a > file1
 	echo a > file2
@@ -187,7 +187,7 @@ it_displays_dirty_state () {
 	git commit -m "b"
 }
 
-it_displays_dirty_state_on_new_repo () {
+it_shows_dirty_state_on_new_repo () {
 	mkdir repo
 	cd repo
 	git init
@@ -195,14 +195,14 @@ it_displays_dirty_state_on_new_repo () {
 	test "$output" '==' 'master #'
 }
 
-it_displays_untracked_files () {
+it_shows_untracked_files () {
 	init_git_repo
 	echo a > file1
 	output="$(GIT_PS1_SHOWUNTRACKEDFILES=1 git-prompt-legacy.sh 2>&1)"
 	test "$output" '==' 'master %'
 }
 
-it_displays_stash () {
+it_shows_stash () {
 	init_git_repo
 	echo a > README
 	git stash
