@@ -188,7 +188,6 @@ it_displays_dirty_state () {
 }
 
 it_displays_dirty_state_on_new_repo () {
-	cd ..
 	mkdir repo
 	cd repo
 	git init
