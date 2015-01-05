@@ -36,12 +36,6 @@ it_shows_nothing_in_empty_dir() {
 	test "$output" "=" ""
 }
 
-it_shows_nothing_in_empty_dir_containing_git_dir() {
-	mkdir .git
-	output="$(git-prompt-legacy.sh 2>&1)"
-	test "$output" "=" ""
-}
-
 it_shows_branch_name() {
 	init_git_repo
 	output="$(git-prompt-legacy.sh 2>&1)"
