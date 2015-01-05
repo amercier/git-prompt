@@ -195,6 +195,13 @@ it_displays_dirty_state_on_new_repo () {
 	test "$output" '==' 'master #'
 }
 
+it_displays_untracked_files () {
+	init_git_repo
+	echo a > file1
+	output="$(GIT_PS1_SHOWUNTRACKEDFILES=1 git-prompt-legacy.sh 2>&1)"
+	test "$output" '==' 'master %'
+}
+
 it_displays_stash () {
 	init_git_repo
 	echo a > README
